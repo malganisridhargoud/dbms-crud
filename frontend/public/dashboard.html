@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Dashboard</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+  <div class="container">
+    <nav class="nav">
+      <button id="logout">Logout</button>
+    </nav>
+    <h1>Available Events</h1>
+    <div id="events" class="card-grid"></div>
+  </div>
+
+  <script src="http://localhost:5000/socket.io/socket.io.js"></script>
+  <script src="js/bookings.js"></script>
+</body>
+</html>

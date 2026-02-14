@@ -1,5 +1,5 @@
 // Role-aware register/login
-const apiUrl = 'http://localhost:5000/api/auth';
+const apiUrl = `${window.API_BASE}/api/auth`;
 const params = new URLSearchParams(window.location.search);
 const roleParam = params.get('role') || 'user';
 

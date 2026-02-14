@@ -1,9 +1,9 @@
 const token = localStorage.getItem('token');
 const eventsEl = document.getElementById('events');
-const socket = io('http://localhost:5000');
+const socket = io(window.API_BASE);
 
 async function loadEvents() {
-  const res = await fetch('http://localhost:5000/api/events');
+  const res = await fetch(`${window.API_BASE}/api/events`);
   const events = await res.json();
   eventsEl.innerHTML = '';
   events.forEach(e => {
@@ -30,7 +30,7 @@ async function book(id) {
   }
 
   try {
-    const res = await fetch('http://localhost:5000/api/bookings', {
+    const res = await fetch(`${window.API_BASE}/api/bookings`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

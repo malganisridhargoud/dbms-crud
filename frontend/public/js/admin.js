@@ -1,8 +1,9 @@
 // admin.js
 const tokenA = localStorage.getItem('token');
+const roleA = localStorage.getItem('role');
 const evtList = document.getElementById('eventList');
 const bkgList = document.getElementById('bookingList');
-const socket = io('http://localhost:5000');
+const socket = io(window.API_BASE);
 
 function appendEvent(e) {
   const card = document.createElement('div');
@@ -27,7 +28,7 @@ function appendBooking(b) {
 }
 
 async function loadAdminEvents() {
-  const res = await fetch('http://localhost:5000/api/events/mine', {
+  const res = await fetch(`${window.API_BASE}/api/events/mine`, {
     headers: { 'Authorization': tokenA }
   });
   const evts = await res.json();
@@ -36,7 +37,7 @@ async function loadAdminEvents() {
 }
 
 async function loadBookings() {
-  const res = await fetch('http://localhost:5000/api/bookings', {
+  const res = await fetch(`${window.API_BASE}/api/bookings`, {
     headers: { 'Authorization': tokenA }
   });
   const bk = await res.json();
@@ -54,7 +55,7 @@ document.getElementById('eventForm').addEventListener('submit', async e => {
     total_seats: document.getElementById('total_seats').value
   };
 
-  const res = await fetch('http://localhost:5000/api/events', {
+  const res = await fetch(`${window.API_BASE}/api/events`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -63,7 +64,10 @@ document.getElementById('eventForm').addEventListener('submit', async e => {
     body: JSON.stringify(body)
   });
 
-  if (!res.ok) return alert('Failed to create event');
+  if (!res.ok) {
+    const msg = await res.text();
+    return alert(`Failed to create event: ${msg}`);
+  }
   const newEvent = await res.json();
 
   appendEvent(newEvent);
@@ -73,16 +77,19 @@ document.getElementById('eventForm').addEventListener('submit', async e => {
 });
 
 async function deleteEvent(id) {
-  const res = await fetch(`http://localhost:5000/api/events/${id}`, {
+  const res = await fetch(`${window.API_BASE}/api/events/${id}`, {
     method: 'DELETE',
     headers: { 'Authorization': tokenA }
   });
   if (res.ok) loadAdminEvents();
-  else alert('Delete failed');
+  else {
+    const msg = await res.text();
+    alert(`Delete failed: ${msg}`);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  if (!tokenA) return window.location = 'index.html';
+  if (!tokenA || roleA !== 'admin') return window.location = 'login.html?role=admin';
 
   document.getElementById('logout').onclick = () => {
     localStorage.clear();

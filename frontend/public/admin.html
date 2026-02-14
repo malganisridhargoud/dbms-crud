@@ -1,0 +1,36 @@
+<!-- admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+  <div class="container">
+    <nav class="nav">
+      <button id="logout">Logout</button>
+    </nav>
+
+    <h1>My Events</h1>
+    <form id="eventForm">
+      <input type="text" id="title" placeholder="Title" required/>
+      <textarea id="description" placeholder="Description" rows="2" required></textarea>
+      <input type="date" id="date" required/>
+      <input type="time" id="time" required/>
+      <input type="number" id="total_seats" placeholder="Total Seats" required min="1"/>
+      <button type="submit">Add Event</button>
+    </form>
+
+    <div id="eventList" class="card-grid"></div>
+
+    <h2>All Bookings</h2>
+    <div id="bookingList" class="card-grid"></div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
